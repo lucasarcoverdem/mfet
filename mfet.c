@@ -56,8 +56,13 @@ int main(int argc, char** argv)
     
     get_memory();
     
+    int len = strlen(login) + strlen(hostname) + 1;
+
     printf("%s@%s\n", login, hostname);
-    printf("------------\n");
+    for (int i = 0; i<len; i++)
+        putchar('-');
+    putchar('\n');
+
     printf("os : %s\n", os);
     printf("mem: %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
 
