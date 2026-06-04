@@ -3,11 +3,8 @@
 #include <unistd.h>
 #include <string.h>
 
-char login[1024];
-char hostname[1024];
-char os[1024];
-char memory[1024];
-
+char login[1024], hostname[1024], os[1024];
+long mem_total, mem_available;
 
 void get_os_pretty_name()
 {
@@ -33,6 +30,20 @@ void get_os_pretty_name()
     fclose(os_release_file);
 }
 
+void get_memory()
+{
+    FILE* memory_file = fopen("/proc/meminfo", "r");
+
+    fscanf(memory_file, "MemTotal: %ld kB\n", &mem_total);
+    char line[128];
+    
+    while(fgets(line, sizeof(line), memory_file))
+        if (sscanf(line, "MemAvailable: %ld kB\n", &mem_available) == 1)
+            break;
+    
+    fclose(memory_file);    
+}
+
 int main(int argc, char** argv)
 {
     login[1023] = '\0';
@@ -43,9 +54,12 @@ int main(int argc, char** argv)
 
     get_os_pretty_name();
     
+    get_memory();
+    
     printf("%s@%s\n", login, hostname);
     printf("------------\n");
     printf("os : %s\n", os);
+    printf("mem: %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
 
     return 0;
 }
