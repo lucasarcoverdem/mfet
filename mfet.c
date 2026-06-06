@@ -88,7 +88,7 @@ void get_cpu()
     }
 }
 
-int main(int argc, char** argv)
+int main(void)
 {
     login[1023] = '\0';
     getlogin_r(login, sizeof(login));
