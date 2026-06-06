@@ -7,6 +7,11 @@ char login[1024], hostname[1024], os[1024], cpu[1024];
 long mem_total, mem_available;
 int uptime_hours, uptime_minutes;
 
+const char *ascii =
+" /\\_/\\\\\n"
+"( o.o )\n"
+" > ^ <\n";
+
 void get_os_pretty_name()
 {
     FILE* os_release_file = fopen("/etc/os-release", "r");
@@ -89,15 +94,18 @@ int main(int argc, char** argv)
     
     int len = strlen(login) + strlen(hostname) + 1;
 
-    printf("%s@%s\n", login, hostname);
-    for (int i = 0; i<len; i++)
+    printf(" /\\_/\\\\    %s@%s\n", login, hostname);
+    printf("( o.o )    ");
+    for (int i = 0; i < len; i++)
         putchar('-');
-    putchar('\n');
+    printf("\n");
 
-    printf("os     %s\n", os);
-    printf("uptime %dh %dm\n", uptime_hours, uptime_minutes);
-    printf("cpu    %s\n", cpu);
-    printf("ram    %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
+    printf(" > ^ <     os       %s\n", os);
+    printf("           up       %dh %dm\n", uptime_hours, uptime_minutes);
+    printf("           cpu      %s\n", cpu);
+    printf("           ram      %ld MB / %ld MB\n",
+          (mem_total - mem_available) / 1024,
+          mem_total / 1024);
 
     return 0;
 }
