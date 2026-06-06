@@ -3,10 +3,9 @@
 #include <unistd.h>
 #include <string.h>
 
-char login[1024], hostname[1024], os[1024];
+char login[1024], hostname[1024], os[1024], cpu[1024];
 long mem_total, mem_available;
-int uptime_hours;
-int uptime_minutes;
+int uptime_hours, uptime_minutes;
 
 void get_os_pretty_name()
 {
@@ -59,6 +58,22 @@ void get_uptime()
     uptime_minutes = ((int)uptime_seconds % 3600) / 60;
 }
 
+void get_cpu()
+{
+    FILE* cpu_file = fopen("/proc/cpuinfo", "r");
+    
+    char line[1024];
+
+    while (fgets(line, sizeof(line), cpu_file))
+    {
+        if(strncmp(line, "model name", 10) == 0)
+        {
+            sscanf(line, "model name : %[^\n]", cpu);
+            break;
+        }
+    }
+}
+
 int main(int argc, char** argv)
 {
     login[1023] = '\0';
@@ -70,6 +85,7 @@ int main(int argc, char** argv)
     get_os_pretty_name();
     get_memory();
     get_uptime();
+    get_cpu();
     
     int len = strlen(login) + strlen(hostname) + 1;
 
@@ -80,6 +96,7 @@ int main(int argc, char** argv)
 
     printf("os     %s\n", os);
     printf("uptime %dh %dm\n", uptime_hours, uptime_minutes);
+    printf("cpu    %s\n", cpu);
     printf("ram    %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
 
     return 0;
