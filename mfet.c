@@ -5,6 +5,8 @@
 
 char login[1024], hostname[1024], os[1024];
 long mem_total, mem_available;
+int uptime_hours;
+int uptime_minutes;
 
 void get_os_pretty_name()
 {
@@ -44,6 +46,19 @@ void get_memory()
     fclose(memory_file);    
 }
 
+void get_uptime()
+{
+    FILE* uptime_file = fopen("/proc/uptime", "r");
+    
+    double uptime_seconds;
+    fscanf(uptime_file, "%lf", &uptime_seconds);
+
+    fclose(uptime_file);
+
+    uptime_hours = (int)uptime_seconds / 3600;
+    uptime_minutes = ((int)uptime_seconds % 3600) / 60;
+}
+
 int main(int argc, char** argv)
 {
     login[1023] = '\0';
@@ -53,8 +68,8 @@ int main(int argc, char** argv)
     gethostname(hostname, sizeof(hostname));
 
     get_os_pretty_name();
-    
     get_memory();
+    get_uptime();
     
     int len = strlen(login) + strlen(hostname) + 1;
 
@@ -63,8 +78,9 @@ int main(int argc, char** argv)
         putchar('-');
     putchar('\n');
 
-    printf("os : %s\n", os);
-    printf("ram: %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
+    printf("os     %s\n", os);
+    printf("uptime %dh %dm\n", uptime_hours, uptime_minutes);
+    printf("ram    %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
 
     return 0;
 }
