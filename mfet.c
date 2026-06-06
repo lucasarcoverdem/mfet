@@ -3,6 +3,15 @@
 #include <unistd.h>
 #include <string.h>
 
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+#define WHITE   "\033[37m"
+#define RESET   "\033[0m"
+
 char login[1024], hostname[1024], os[1024], cpu[1024];
 long mem_total, mem_available;
 int uptime_hours, uptime_minutes;
@@ -94,13 +103,13 @@ int main(int argc, char** argv)
     
     int len = strlen(login) + strlen(hostname) + 1;
 
-    printf(" /\\_/\\\\    %s@%s\n", login, hostname);
+    printf(CYAN " /\\_/\\\\    %s@%s\n", login, hostname);
     printf("( o.o )    ");
     for (int i = 0; i < len; i++)
         putchar('-');
     printf("\n");
 
-    printf(" > ^ <     os       %s\n", os);
+    printf(" > ^ <" RESET    "     os       %s\n", os);
     printf("           up       %dh %dm\n", uptime_hours, uptime_minutes);
     printf("           cpu      %s\n", cpu);
     printf("           ram      %ld MB / %ld MB\n",
