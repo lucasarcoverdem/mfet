@@ -64,7 +64,7 @@ int main(int argc, char** argv)
     putchar('\n');
 
     printf("os : %s\n", os);
-    printf("mem: %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
+    printf("ram: %ld mb / %ld mb\n", (mem_total - mem_available) / 1024, mem_total / 1024);
 
     return 0;
 }
