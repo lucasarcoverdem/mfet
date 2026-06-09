@@ -1,8 +1,6 @@
-# mfet
-
 A minimal system fetch tool written in C.
 
-<img width="513" height="110" alt="mfet screenshot" src="https://github.com/user-attachments/assets/26aed86c-dc3e-424c-9bab-0d6bc5e4f8a3" />
+<img width="576" height="360" alt="image" src="https://github.com/user-attachments/assets/cca4488b-0e33-4fac-a0f2-e0f97d4e0201" />
 
 ## Build & Install
 
